@@ -1,8 +1,11 @@
 classes:
   - profile::firewalld
   - profile::cephfs
+  - profile::grid_cert
+  - 'profile::backed_up'
 
 site::node_info::users: poolaccounts
+profile::users::shell: '/sbin/nologin'
 
 firewalld::ports:
   "Open port 9618 for condor":
