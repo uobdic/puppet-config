@@ -15,6 +15,11 @@ firewalld::ports:
     zone: public
     port: 9618
     protocol: 'tcp'
+  "Open port 9619 for condor-ce":
+    ensure: present
+    zone: public
+    port: 9619
+    protocol: 'tcp'
 
 firewalld::services:
   "Allow access to HTTP service on port 80 for CEView (internal only)":
