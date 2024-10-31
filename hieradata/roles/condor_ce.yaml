@@ -4,7 +4,9 @@ classes:
   - profile::grid_cert
   - 'profile::backed_up'
 
-site::node_info::users: poolaccounts
+site::node_info:
+  users: poolaccounts
+
 profile::users::shell: '/sbin/nologin'
 
 firewalld::ports:
