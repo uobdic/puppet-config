@@ -5,6 +5,7 @@ classes:
   - profile::cephfs
   - packages::manage
   - profile::htcondor
+  - profile::users::poolaccounts
 
 profile::htcondor::role: "central-manager"
 

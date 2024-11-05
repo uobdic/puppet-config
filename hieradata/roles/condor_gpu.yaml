@@ -8,6 +8,7 @@ classes:
   - profile::apptainer
   - profile::heposlibs
   - profile::nfs_mounts
+  - profile::users::poolaccounts
 
 profile::htcondor::role: "execute"
 profile::htcondor::execute::use_gpu: true

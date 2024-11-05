@@ -3,6 +3,7 @@ classes:
   - profile::cephfs
   - profile::grid_cert
   - 'profile::backed_up'
+  - profile::users::poolaccounts
 
 site::node_info:
   users: poolaccounts

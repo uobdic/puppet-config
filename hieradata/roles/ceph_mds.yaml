@@ -3,6 +3,7 @@ classes:
   - profile::cephfs
   - packages::manage
   - podman
+  - profile::users::poolaccounts
 
 profile::monitored::use_prometheus: false
 
