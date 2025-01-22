@@ -1,12 +1,12 @@
 ---
 classes:
-  - profile::cvmfs
-  - profile::cephfs
   - packages::manage
   - podman
-  - profile::htcondor
   - profile::apptainer
+  - profile::cvmfs
+  - profile::cephfs
   - profile::heposlibs
+  - profile::htcondor
   - profile::nfs_mounts
   - profile::users::poolaccounts
 
