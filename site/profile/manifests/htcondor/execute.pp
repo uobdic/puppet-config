@@ -54,7 +54,7 @@ class profile::htcondor::execute (
   }
 
   ### grid certificate directory is linked against CVMFS
-  file { '/etc/grid-sercurity/certificates':
+  file { '/etc/grid-security/certificates':
     ensure  => link,
     target  => '/cvmfs/grid.cern.ch/etc/grid-security/certificates',
     require => File['/etc/grid-security'],
