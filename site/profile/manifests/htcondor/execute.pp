@@ -32,15 +32,36 @@ class profile::htcondor::execute (
   }
 
   if $start_jobs {
-    file {'/etc/condor/config.d/999_off.config':
+    file { '/etc/condor/config.d/999_off.config':
       ensure => 'absent',
       notify => Exec['/usr/sbin/condor_reconfig'],
     }
   } else {
-    file {'/etc/condor/config.d/999_off.config':
-      ensure  => 'present',
+    file { '/etc/condor/config.d/999_off.config':
+      ensure  => 'file',
       content => 'START = !isUndefined(TARGET.MAGIC)',
       notify  => Exec['/usr/sbin/condor_reconfig'],
     }
+  }
+
+  ## Environment setup
+  ### grid certificate dir
+  file { '/etc/grid-security':
+    ensure => directory,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+  }
+
+  ### grid certificate directory is linked against CVMFS
+  file { '/etc/grid-sercurity/certificates':
+    ensure  => link,
+    target  => '/cvmfs/grid.cern.ch/etc/grid-security/certificates',
+    require => File['/etc/grid-security'],
+  }
+
+  ### HEP OS libs metapackage needs to be installed (from WLCG repo)
+  package { 'HEP_OSlibs':
+    ensure => present,
   }
 }
