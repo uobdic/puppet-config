@@ -45,7 +45,7 @@ class profile::htcondor::execute (
   }
 
   ## Environment setup
-  # grid certificate dir
+  ### grid certificate dir
   file { '/etc/grid-security':
     ensure => directory,
     owner  => 'root',
@@ -53,10 +53,15 @@ class profile::htcondor::execute (
     mode   => '0755',
   }
 
-  # grid certificate directory is linked against CVMFS
+  ### grid certificate directory is linked against CVMFS
   file { '/etc/grid-sercurity/certificates':
     ensure  => link,
     target  => '/cvmfs/grid.cern.ch/etc/grid-security/certificates',
     require => File['/etc/grid-security'],
+  }
+
+  ### HEP OS libs metapackage needs to be installed (from WLCG repo)
+  package { 'HEP_OSlibs':
+    ensure => present,
   }
 }
