@@ -60,8 +60,5 @@ class profile::htcondor::execute (
     require => File['/etc/grid-security'],
   }
 
-  ### HEP OS libs metapackage needs to be installed (from WLCG repo)
-  package { 'HEP_OSlibs':
-    ensure => present,
-  }
+  ### HEP OS libs are managed by profile::heposlibs
 }
