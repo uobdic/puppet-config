@@ -71,16 +71,24 @@ class profile::users (
   # symlink to the correct location (/home -> /users) for each user
   unless $fqdn == 'sts.dice.priv' {
     $users.each |$key, $value| {
-      unless $value['ensure'] == 'absent' or "/home/${key}" == $value['home'] {
-        exec { "create_home_symlink_${key}":
-          command => "/usr/bin/ln -s ${value['home']} /home/${key}",
-          unless  => "/usr/bin/test -d /home/${key} || /usr/bin/test -L /home/${key}",
+      # remove existing symlinks
+      if $value['ensure'] == 'absent' {
+        ['home', 'users'].each |$dir| {
+          exec { "remove_${dir}_symlink_${key}":
+            command => "/usr/bin/rm -f /${dir}/${key}",
+            onlyif  => "/usr/bin/test -L /${dir}/${key}",
+          }
         }
       }
-      if $value['ensure'] == 'absent' and "/home/${key}" != $value['home'] {
-        exec { "remove_home_symlink_${key}":
-          command => "/usr/bin/rm -f /home/${key}",
-          onlyif  => "/usr/bin/test -L /home/${key}",
+      # create symlinks: /home -> /users and /users -> /home
+      if $value['ensure'] == 'present' or $value['ensure'] == undef {
+        exec { "create_home_symlink_${key}":
+          command => "/usr/bin/ln -s /users/${key} /home/${key}",
+          unless  => "/usr/bin/test -d /home/${key} || /usr/bin/test -L /home/${key}",
+        }
+        exec { "create_users_symlink_${key}":
+          command => "/usr/bin/ln -s /home/${key} /users/${key}",
+          unless  => "/usr/bin/test -d /users/${key} || /usr/bin/test -L /users/${key}",
         }
       }
     }
